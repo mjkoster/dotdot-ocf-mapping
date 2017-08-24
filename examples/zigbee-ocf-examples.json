@@ -1,0 +1,202 @@
+// GET /oic/res/?if.oic.if.ll
+[
+  {
+    "anchor": "coaps://[2001:db8:a::b1d4]:22222",
+    "href": "/onoff/",
+    "rt": ["oic.wk.col"],
+    "if": ["oic.if.b", "oic.if.ll", "oic.if.baseline"],
+    "title": "OnOffControl"
+  },
+  {
+    "anchor": "coaps://[2001:db8:a::b1d4]:22222",
+    "href": "/level/",
+    "rt": ["oic.wk.col"],
+    "if": ["oic.if.b", "oic.if.ll", "oic.if.baseline"],
+    "title": "LevelControl"
+  },
+  {
+    "anchor": "coaps://[2001:db8:a::b1d4]:22222",
+    "href": "/colourcontrol/",
+    "rt": ["oic.wk.col"],
+    "if": ["oic.if.b", "oic.if.ll", "oic.if.baseline"],
+    "title": "ColorControl"
+  },
+  {
+    "anchor": "coaps://[2001:db8:a::b1d4]:22222",
+    "href": "/colourtemperature/",
+    "rt": ["oic.wk.col"],
+    "if": ["oic.if.b", "oic.if.ll", "oic.if.baseline"],
+    "title": "ColorTemperature"
+  }
+]
+// GET /onoff/?if.oic.if.ll
+[
+  {
+    "href": "switch",
+    "rt": ["oic.r.switch.binary"],
+    "if": ["oic.if.a", "oic.if.baseline"],
+    "title": "OnOff"
+  },
+  {
+    "href": "ondelay",
+    "rt": ["oic.r.light.ramptime"],
+    "if": ["oic.if.a", "oic.if.baseline"],
+    "title": "OnTime"
+  },
+  {
+    "href": "offdelay",
+    "rt": ["oic.r.light.ramptime"],
+    "if": ["oic.if.a", "oic.if.baseline"],
+    "title": "OffWaitTIme"
+  }
+]
+// GET /level/?if=oic.if.ll
+[
+  {
+    "href": "dimming",
+    "rt": ["oic.r.light.dimming"],
+    "if": ["oic.if.a", "oic.if.r", "oic.if.baseline"],
+    "title": "Level"
+  },
+  {
+    "href": "ramptime",
+    "rt": ["oic.r.light.ramptime"],
+    "if": ["oic.if.a", "oic.if.r", "oic.if.baseline"],
+    "title": "TransitionTime"
+  }
+]
+// GET /colourcontrol/?if=oic.if.ll
+[
+  {
+    "href": "colour",
+    "rt": ["oic.r.light.colour.chroma"],
+    "if": ["oic.if.a", "oic.if.baseline"],
+    "title": "ColourControl"
+  },
+  {
+    "href": "ramptime",
+    "rt": ["oic.r.light.ramptime"],
+    "if": ["oic.if.a", "oic.if.baseline"],
+    "title": "TransitionTime"
+  }
+]
+
+// GET /onoff/switch?if=oic.if.a
+{
+  "value": true
+}
+
+// POST /onoff/switch?if=oic.if.a
+{
+  "value": false
+}
+
+// GET /level/dimming?if=oic.if.r
+{
+  "range": [1, 254],
+  "units": "ucum:%"
+}
+
+// GET /level/dimming?if=oic.if.a
+{
+  "dimming": 20
+}
+
+
+// GET /level/dimming?if=oic.if.r&if=oic.if.a
+{
+  "range": [1,254],
+  "units": "ucum:%",
+  "dimming": 20
+}
+
+// POST /level/dimming?if=oic.if.a
+{
+  "dimming": 80
+}
+
+// GET /level/ramptime?if=oic.if.r
+{
+  "range": [0, 65534],
+  "units": "ucum:ms*100"
+}
+
+// GET /level/?if=oic.if.b
+[
+  {
+    "href": "dimming",
+    "rep": {
+      "dimming": 20
+    }
+  },
+  {
+    "href": "ramptime",
+    "rep": {
+      "ramptime": 100
+    }
+  }
+]
+
+// GET /colourcontrol/?if=oic.if.b
+[
+  {
+    "href": "colour",
+    "rep": {
+      "hue": 359,
+      "saturation": 100
+    }
+  },
+  {
+    "href": "ramptime",
+    "rep": {
+      "ramptime": 100
+    }
+  }
+]
+
+// movetolevel command
+// POST /level/?if=oic.if.b
+[
+  {
+    "href": "dimming",
+    "rep": {
+      "dimming": 80
+    }
+  },
+  {
+    "href": "ramptime",
+    "rep": {
+      "ramptime": 10
+    }
+  }
+]
+
+// moveto level and color hs using a batch collection
+// POST /light/?if=oic.if.b
+[
+  {
+    "href": "colourcontrol",
+    "rep": [
+      {
+        "href": "colour",
+        "rep": {
+          "hue": 88,
+          "saturation": 50,
+          "ramptime": 10
+        }
+      }
+    ]
+  },
+  {
+    "href": "level",
+    "rep": [
+      {
+        "href": "dimming",
+        "rep": {
+          "dimming": 210,
+          "ramptime": 10
+        }
+      }
+    ]
+  }
+]
